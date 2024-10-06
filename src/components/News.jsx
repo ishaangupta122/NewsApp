@@ -15,7 +15,7 @@ const News = () => {
   useEffect(() => {
     const fetchUrl = async () => {
       try {
-        const apiUrl = `https://newsapi.org/v2/everything?q=tesla&from=2024-09-03&sortBy=publishedAt&apiKey=24303d423552496da89971f12c13cc30`;
+        const apiUrl = `https://newsapi.org/v2/everything?q=bitcoin&apiKey=24303d423552496da89971f12c13cc30`;
         const response = await axios.get(apiUrl);
         setNews(response.data.articles);
         setTotalResults(response.data.totalResults);
