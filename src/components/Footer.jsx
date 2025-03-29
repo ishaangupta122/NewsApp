@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { IoIosArrowUp } from "react-icons/io";
 import { Link } from "react-router-dom";
@@ -35,121 +35,111 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-800 text-white w-full">
-      <div className="container mx-auto sm:px-16 px-8 py-8 max-w-[2000px]">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="space-y-4 ">
-            <h3 className="text-xl font-bold">About Us</h3>
-            <div className="flex space-y-5 flex-col">
-              <p className="w-[80%] font-medium tracking-wider">
+    <footer className='bg-gray-800 text-white w-full'>
+      <div className='container mx-auto sm:px-16 px-8 py-8 max-w-[2000px]'>
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-8'>
+          <div className='space-y-4 '>
+            <h3 className='text-xl font-bold'>About Us</h3>
+            <div className='flex space-y-5 flex-col'>
+              <p className='w-[80%] font-medium tracking-wider'>
                 Our website give the latest news and headlines across the world.
               </p>
-              <div className="flex space-x-4">
+              <div className='flex space-x-4'>
                 <a
-                  href="https://www.facebook.com"
-                  target="_blank"
-                  className="hover:text-blue-400 transition duration-300"
-                  aria-label="Facebook"
-                >
+                  href='https://www.facebook.com'
+                  target='_blank'
+                  className='hover:text-blue-400 transition duration-300'
+                  aria-label='Facebook'>
                   <FaFacebook size={24} />
                 </a>
                 <a
-                  href="https://x.com/home"
-                  target="_blank"
-                  className="hover:text-blue-400 transition duration-300"
-                  aria-label="Twitter"
-                >
+                  href='https://x.com/home'
+                  target='_blank'
+                  className='hover:text-blue-400 transition duration-300'
+                  aria-label='Twitter'>
                   <FaTwitter size={24} />
                 </a>
                 <a
-                  href="https://www.instagram.com/"
-                  target="_blank"
-                  className="hover:text-pink-400 transition duration-300"
-                  aria-label="Instagram"
-                >
+                  href='https://www.instagram.com/'
+                  target='_blank'
+                  className='hover:text-pink-400 transition duration-300'
+                  aria-label='Instagram'>
                   <FaInstagram size={24} />
                 </a>
                 <a
-                  href="https://www.linkedin.com/feed/"
-                  target="_blank"
-                  className="hover:text-blue-600 transition duration-300"
-                  aria-label="LinkedIn"
-                >
+                  href='https://www.linkedin.com/feed/'
+                  target='_blank'
+                  className='hover:text-blue-600 transition duration-300'
+                  aria-label='LinkedIn'>
                   <FaLinkedin size={24} />
                 </a>
               </div>
             </div>
           </div>
-          <div className="space-y-4 ">
-            <h3 className="text-xl font-bold">Quick Links</h3>
-            <ul className="space-y-2">
+          <div className='space-y-4 '>
+            <h3 className='text-xl font-bold'>Quick Links</h3>
+            <ul className='space-y-2'>
               <li>
                 <Link
-                  to="/"
-                  className="hover:text-gray-300 transition duration-300"
-                >
+                  to='/'
+                  className='hover:text-gray-300 transition duration-300'>
                   Home
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/about"
-                  className="hover:text-gray-300 transition duration-300"
-                >
+                  to='/about'
+                  className='hover:text-gray-300 transition duration-300'>
                   About
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/services"
-                  className="hover:text-gray-300 transition duration-300"
-                >
+                  to='/services'
+                  className='hover:text-gray-300 transition duration-300'>
                   Services
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/contact"
-                  className="hover:text-gray-300 transition duration-300"
-                >
+                  to='/contact'
+                  className='hover:text-gray-300 transition duration-300'>
                   Contact
                 </Link>
               </li>
             </ul>
           </div>
 
-          <div className="space-y-4 ">
-            <h3 className="text-xl font-bold">Subscribe</h3>
-            <form onSubmit={handleSubmit} className="space-y-2">
+          <div className='space-y-4 '>
+            <h3 className='text-xl font-bold'>Subscribe</h3>
+            <form onSubmit={handleSubmit} className='space-y-2'>
               <input
-                type="email"
+                type='email'
                 value={email}
                 onChange={handleEmailChange}
-                placeholder="Enter your email"
+                placeholder='Enter your email'
                 className={`w-full px-3 py-2 text-gray-700 bg-white rounded-md focus:outline-none focus:ring-2 ${
                   isValid ? "focus:ring-blue-400" : "focus:ring-red-400"
                 }`}
                 required
               />
               <button
-                type="submit"
-                className="w-full px-3 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold"
-              >
+                type='submit'
+                className='w-full px-3 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition duration-300 font-semibold'>
                 Subscribe
               </button>
             </form>
           </div>
         </div>
-        <div className="mt-8 pt-8 border-t border-gray-700 text-center fade-in">
-          <p>&copy; 2024 Clipora. All rights reserved.</p>
+        <div className='mt-8 pt-8 border-t border-gray-700 text-center fade-in'>
+          <p>&copy; 2024 NewsApp. All rights reserved.</p>
         </div>
       </div>
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-5 right-4 bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition duration-300"
-          aria-label="Scroll to top"
-        >
+          className='fixed bottom-5 right-4 bg-indigo-600 text-white p-2 rounded-full hover:bg-indigo-700 transition duration-300'
+          aria-label='Scroll to top'>
           <IoIosArrowUp size={30} />
         </button>
       )}
