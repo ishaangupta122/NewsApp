@@ -8,16 +8,24 @@ const News = () => {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
-  const articlesPerPage = 18;
+  const articlesPerPage = 10;
 
-  const fetchUrl = async () => {
+  const fetchUrl = async (search = "", pageNum = 1) => {
     try {
       const apiKey =
-        import.meta.env.VITE_API_KEY || "24303d423552496da89971f12c13cc30";
-      const apiUrl = `https://newsapi.org/v2/everything?q=bitcoin&apiKey=${apiKey}`;
+        import.meta.env.VITE_API_KEY || "d39e2a9f-8321-45bf-8bbc-e3957fb4e1dd";
+      const query = search ? `&q=${search}` : "";
+      const apiUrl = `https://content.guardianapis.com/search?api-key=${apiKey}&show-fields=thumbnail&page=${pageNum}&page-size=${articlesPerPage}${query}`;
       const response = await axios.get(apiUrl);
-      setNews(response.data.articles);
+
+      if (pageNum === 1) {
+        setNews(response.data.response.results);
+      } else {
+        setNews((prevNews) => [...prevNews, ...response.data.response.results]);
+      }
+
       setLoading(false);
+      setError(false);
     } catch (error) {
       console.log("Error fetching data:", error);
       setError(true);
@@ -26,18 +34,17 @@ const News = () => {
   };
 
   useEffect(() => {
-    fetchUrl();
-  }, []);
+    fetchUrl(searchTerm, page);
+  }, [page]);
+
+  useEffect(() => {
+    setPage(1);
+    fetchUrl(searchTerm, 1);
+  }, [searchTerm]);
 
   const loadMore = () => {
     setPage((prevPage) => prevPage + 1);
   };
-
-  const filteredNews = news.filter(
-    (article) =>
-      article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      article.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const truncateText = (text, maxLength) => {
     if (text && text.length > maxLength) {
@@ -57,7 +64,7 @@ const News = () => {
 
   return (
     <>
-      {loading ? (
+      {loading && page === 1 ? (
         <div className='w-full h-[70vh] flex items-center justify-center'>
           <div className='animate-spin rounded-full h-16 w-16 border-4 border-indigo-600 border-solid border-r-transparent'></div>
         </div>
@@ -76,33 +83,36 @@ const News = () => {
             </div>
           </div>
 
-          {filteredNews.length === 0 ? (
+          {news.length === 0 ? (
             <div className='flex items-center justify-center gap-4 w-full my-11 text-amber-600 text-center text-3xl '>
               <FiAlertCircle />
               <h1 className='font-bold'>No Results Found...</h1>
             </div>
           ) : (
             <div className='grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-10 px-10 max-w-[1550px]'>
-              {filteredNews.slice(0, page * articlesPerPage).map((News, id) => (
+              {news.map((News, id) => (
                 <div
                   key={id}
                   className='w-sm rounded overflow-hidden shadow-lg bg-white flex flex-col'>
                   <img
                     className='w-full h-[300px] object-cover'
-                    src={News.urlToImage || "https://via.placeholder.com/300"}
+                    src={
+                      News.fields?.thumbnail ||
+                      "https://media.guim.co.uk/38dbab58c8e4d44ab8f5fb27adefa612041addb2/0_464_7115_4271/500.jpg"
+                    }
                     alt='News Thumbnail'
                   />
                   <div className='px-6 py-4 flex-grow'>
                     <div className='font-bold text-xl mb-2'>
-                      {truncateText(News.title, 55)}
+                      {truncateText(News.sectionName, 55)}
                     </div>
                     <p className='text-gray-700'>
-                      {truncateText(News.description, 100)}
+                      {truncateText(News.webTitle, 100)}
                     </p>
                   </div>
                   <div className='px-6 py-6 mt-auto flex justify-end'>
                     <a
-                      href={News.url}
+                      href={News.webUrl}
                       target='_blank'
                       rel='noopener noreferrer'
                       className='bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded'>
@@ -114,13 +124,11 @@ const News = () => {
             </div>
           )}
 
-          {filteredNews.length > page * articlesPerPage && (
-            <button
-              onClick={loadMore}
-              className='bg-black hover:shadow-2xl text-white font-bold py-3 px-7 rounded mt-11'>
-              Load More
-            </button>
-          )}
+          <button
+            onClick={loadMore}
+            className='bg-black hover:shadow-2xl text-white font-bold py-3 px-7 rounded mt-11'>
+            Load More
+          </button>
         </div>
       )}
     </>
